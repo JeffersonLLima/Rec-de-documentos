@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Documentos</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Referência a um arquivo CSS externo (se necessário) -->
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,7 +76,7 @@
         <input type="text" id="document-name" placeholder="Número AWB" required>
         <input type="date" id="dataRecebimento" placeholder="Data" required>
         <input type="time" id="horaRecebimento" placeholder="Hora" required>
-        <input type="number" id="pesoDocumento" placeholder="Peso em KG" required>
+        <input type="number" id="pesoDocumento" placeholder="Peso em KG" required step="0.01">
         <input type="text" id="origemDocumento" placeholder="Origem" required>
         <input type="text" id="destinoDocumento" placeholder="Destino" required>
         <input type="text" id="statusDocumento" placeholder="Status Documento" required>
@@ -135,10 +135,17 @@
             document.getElementById("document-form").reset();
         });
 
-        // Função para remover um documento
+        // Função para remover um documento com verificação de senha
         function removerDocumento(button) {
-            const row = button.parentElement.parentElement;
-            row.remove();
+            const senhaCorreta = "Soeuseiasenh@"; // Defina a senha necessária para remoção
+            const senha = prompt("Digite a senha para remover o documento:");
+
+            if (senha === senhaCorreta) {
+                const row = button.parentElement.parentElement;
+                row.remove();
+            } else {
+                alert("Senha incorreta. O documento não foi removido.");
+            }
         }
     </script>
 
