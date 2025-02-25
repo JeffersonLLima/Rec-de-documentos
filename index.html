@@ -109,6 +109,7 @@
     // Função para carregar os documentos do Local Storage
     function carregarDocumentos() {
         const documentosSalvos = JSON.parse(localStorage.getItem("documentos")) || [];
+        console.log("Documentos carregados do Local Storage:", documentosSalvos); // Verifica se os documentos foram carregados
         const tabela = document.getElementById("document-list");
         documentosSalvos.forEach(doc => {
             const novaLinha = document.createElement("tr");
@@ -182,7 +183,12 @@
             });
         });
 
+        console.log("Documentos a salvar:", documentos); // Verifica os documentos antes de salvar
         localStorage.setItem("documentos", JSON.stringify(documentos));
+
+        // Verifica se os documentos foram salvos corretamente no Local Storage
+        const documentosSalvos = JSON.parse(localStorage.getItem("documentos"));
+        console.log("Documentos salvos no Local Storage:", documentosSalvos);
     }
 
     // Função para remover um documento com verificação de senha
