@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("document-form");
     const documentList = document.getElementById("document-list");
 
+    // Função para carregar documentos do localStorage
     function loadDocuments() {
         const savedDocuments = JSON.parse(localStorage.getItem("documents")) || [];
         savedDocuments.forEach(doc => addRow(doc));
     }
 
+    // Função para adicionar uma linha na tabela
     function addRow(doc) {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -20,23 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
             <td><button class="embarcado-btn">Embarcado</button></td>
             <td><button class="remover-btn">Remover</button></td>
         `;
-        
+
         const embarcadoBtn = row.querySelector(".embarcado-btn");
         embarcadoBtn.addEventListener("click", function () {
             doc.status = "Embarcado";
             row.querySelector(".status").textContent = "Embarcado";
             updateLocalStorage();
         });
-        
+
         const removerBtn = row.querySelector(".remover-btn");
         removerBtn.addEventListener("click", function () {
             row.remove();
             updateLocalStorage();
         });
-        
+
         documentList.appendChild(row);
     }
 
+    // Função para atualizar o localStorage com os dados mais recentes
     function updateLocalStorage() {
         const updatedDocuments = [];
         documentList.querySelectorAll("tr").forEach(row => {
@@ -56,17 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("documents", JSON.stringify(updatedDocuments));
     }
 
+    // Event listener para o envio do formulário
     form.addEventListener("submit", function (event) {
         event.preventDefault();
 
         const awb = document.getElementById("document-name").value;
-        const dataRecebimento = document.getElementById("data Recebimento").value;
-        const horaRecebimento = document.getElementById("Hora Recebimento").value;
-        const peso = document.getElementById("Peso Documento").value;
-        const origem = document.getElementById("Origem Documento").value;
-        const destino = document.getElementById("Destino Documento").value;
-        const status = document.getElementById("Status").value;
+        const dataRecebimento = document.getElementById("dataRecebimento").value; // Corrigido o id aqui
+        const horaRecebimento = document.getElementById("horaRecebimento").value; // Corrigido o id aqui
+        const peso = document.getElementById("pesoDocumento").value; // Corrigido o id aqui
+        const origem = document.getElementById("origemDocumento").value; // Corrigido o id aqui
+        const destino = document.getElementById("destinoDocumento").value; // Corrigido o id aqui
+        const status = document.getElementById("statusDocumento").value; // Corrigido o id aqui
 
+        // Verificação se todos os campos foram preenchidos
         if (!awb || !dataRecebimento || !horaRecebimento || !peso || !origem || !destino || !status) {
             alert("Preencha todos os campos!");
             return;
@@ -82,5 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
         form.reset();
     });
 
+    // Carregar documentos ao inicializar a página
     loadDocuments();
 });
