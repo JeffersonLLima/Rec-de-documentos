@@ -60,20 +60,12 @@
                 return;
             }
 
-            // Cálculo da divergência percentual
-            let divergencia = (valorNovo - valorAntigo) / valorAntigo;
-            let divergenciaPercentual = divergencia * 100;
+            let divergencia = ((valorNovo - valorAntigo) / valorAntigo) * 100;
+            let mensagem = divergencia > 0 
+                ? `Aumento de ${divergencia.toFixed(2)}%`
+                : `Redução de ${Math.abs(divergencia).toFixed(2)}%`;
 
-            // Formatação da mensagem de divergência
-            let mensagem = divergenciaPercentual > 0 
-                ? `Aumento de ${divergenciaPercentual.toFixed(2)}%`
-                : `Redução de ${Math.abs(divergenciaPercentual).toFixed(2)}%`;
-
-            // Definir o status com base na divergência
-            let status = divergenciaPercentual > 5 ? 'Pendente' : 'Apta para embarque';
-
-            // Exibir a mensagem de divergência e o status
-            document.getElementById("resultado").innerText = `Resultado: ${mensagem}. Status: ${status}`;
+            document.getElementById("resultado").innerText = `Resultado: ${mensagem}`;
         }
     </script>
 
@@ -84,7 +76,7 @@
         <input type="text" id="document-name" placeholder="Número AWB" required>
         <input type="date" id="dataRecebimento" placeholder="Data" required>
         <input type="time" id="horaRecebimento" placeholder="Hora" required>
-        <input type="number" id="pesoDocumento" placeholder="Peso em KG" required>
+        <input type="number" id="pesoDocumento" placeholder="Peso em KG" required step="0.01">
         <input type="text" id="origemDocumento" placeholder="Origem" required>
         <input type="text" id="destinoDocumento" placeholder="Destino" required>
         <input type="text" id="statusDocumento" placeholder="Status Documento" required>
@@ -116,7 +108,7 @@
             const mawb = document.getElementById("document-name").value;
             const data = document.getElementById("dataRecebimento").value;
             const hora = document.getElementById("horaRecebimento").value;
-            const peso = (document.getElementById("pesoDocumento").value);
+            const peso = document.getElementById("pesoDocumento").value;
             const origem = document.getElementById("origemDocumento").value;
             const destino = document.getElementById("destinoDocumento").value;
             const status = document.getElementById("statusDocumento").value;
