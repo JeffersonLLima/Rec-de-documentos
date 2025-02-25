@@ -52,23 +52,26 @@
 
     <script>
         function calcularDivergencia() {
-            let valorAntigo = number(document.getElementById("valorAntigo").value);
-            let valorNovo = number(document.getElementById("valorNovo").value);
-            
-            if (isNaN(valorAntigo) || isNaN(valorNovo) || valorAntigo === 0) {
-                document.getElementById("resultado").innerText = "Por favor, insira valores válidos!";
-                return;
-            }
-
-            let divergencia = ((valorNovo - valorAntigo) / valorAntigo) * 100;
-            let mensagem = divergencia > 0 
-                ? `Aumento de ${divergencia.toFixed(2)}%`
-                : `Redução de ${Math.abs(divergencia).toFixed(2)}%`;
-
-            document.getElementById("resultado").innerText = `Resultado: ${mensagem}`;
+        let valorAntigo = parseFloat(document.getElementById("valorAntigo").value);
+        let valorNovo = parseFloat(document.getElementById("valorNovo").value);
+        
+        if (isNaN(valorAntigo) || isNaN(valorNovo) || valorAntigo === 0) {
+            document.getElementById("resultado").innerText = "Por favor, insira valores válidos!";
+            return;
         }
-    </script>
 
+        let divergencia = ((valorNovo - valorAntigo) / valorAntigo) * 100;
+        let mensagem = divergencia > 0 
+            ? `Aumento de ${divergencia.toFixed(2)}%`
+            : `Redução de ${Math.abs(divergencia).toFixed(2)}%`;
+
+        // Definir o status com base na divergência
+        let status = divergencia > 5 ? 'Pendente' : 'Apta para embarque';
+
+        // Exibir a mensagem de divergência e o status
+        document.getElementById("resultado").innerText = `Resultado: ${mensagem}. Status: ${status}`;
+    }
+</script>
     <!-- Lista de Recebimento de Documentos -->
     <h1>Lista de Recebimento de Documentos</h1>
 
