@@ -76,7 +76,7 @@
         <input type="text" id="document-name" placeholder="Número AWB" required>
         <input type="date" id="dataRecebimento" placeholder="Data" required>
         <input type="time" id="horaRecebimento" placeholder="Hora" required>
-        <input type="text" id="pesoDocumento" placeholder="Peso em KG" required>
+        <input type="number" id="pesoDocumento" placeholder="Peso em KG" required step="0.01">
         <input type="text" id="origemDocumento" placeholder="Origem" required>
         <input type="text" id="destinoDocumento" placeholder="Destino" required>
         <input type="text" id="statusDocumento" placeholder="Status Documento" required>
@@ -108,7 +108,7 @@
             const mawb = document.getElementById("document-name").value;
             const data = document.getElementById("dataRecebimento").value;
             const hora = document.getElementById("horaRecebimento").value;
-            const peso = document.getElementById("pesoDocumento").value;
+            const peso = parseFloat(document.getElementById("pesoDocumento").value).toFixed(2); // Garantir formato com 2 casas decimais
             const origem = document.getElementById("origemDocumento").value;
             const destino = document.getElementById("destinoDocumento").value;
             const status = document.getElementById("statusDocumento").value;
