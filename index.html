@@ -69,9 +69,13 @@
         }
     </script>
 
-    <!-- Lista de Recebimento de Documentos -->
+    <!-- Campo de pesquisa -->
     <h1>Lista de Recebimento de Documentos</h1>
 
+    <label for="search">Pesquisar por MAWB:</label>
+    <input type="text" id="search" onkeyup="filtrarDocumento()" placeholder="Digite o número do AWB">
+
+    <!-- Formulário para adicionar documentos -->
     <form id="document-form">
         <input type="text" id="document-name" placeholder="Número AWB" required>
         <input type="date" id="dataRecebimento" placeholder="Data" required>
@@ -146,6 +150,21 @@
             } else {
                 alert("Senha incorreta. O documento não foi removido.");
             }
+        }
+
+        // Função de filtro para pesquisa por MAWB
+        function filtrarDocumento() {
+            const searchInput = document.getElementById("search").value.toLowerCase();
+            const rows = document.querySelectorAll("#document-list tr");
+
+            rows.forEach(row => {
+                const mawbCell = row.cells[0].textContent.toLowerCase();
+                if (mawbCell.includes(searchInput)) {
+                    row.style.display = ""; // Exibe a linha
+                } else {
+                    row.style.display = "none"; // Oculta a linha
+                }
+            });
         }
     </script>
 
