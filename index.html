@@ -55,7 +55,7 @@
             let valorAntigo = parseFloat(document.getElementById("valorAntigo").value);
             let valorNovo = parseFloat(document.getElementById("valorNovo").value);
             
-            if (isNaN(valorAntigo) || isNaN(valorNovo) || valorAntigo === 0) {
+            if (isNaN(valorAntigo) || isNaN(valorNovo) || valorAntigo <= 0) {
                 document.getElementById("resultado").innerText = "Por favor, insira valores válidos!";
                 return;
             }
@@ -69,13 +69,13 @@
         }
     </script>
 
-    <!-- Campo de pesquisa -->
-    <h1>Lista de Recebimento de Documentos</h1>
+ <!-- Campo de pesquisa -->
+ <h1>Lista de Recebimento de Documentos</h1>
 
-    <label for="search">Pesquisar por MAWB:</label>
-    <input type="text" id="search" onkeyup="filtrarDocumento()" placeholder="Digite o número do AWB">
-
-    <!-- Formulário para adicionar documentos -->
+ <label for="search">Pesquisar por MAWB:</label>
+ <input type="text" id="search" onkeyup="filtrarDocumento()" placeholder="Digite o número do AWB">
+ 
+    <!-- Lista de Recebimento de Documentos -->
     <form id="document-form">
         <input type="text" id="document-name" placeholder="Número AWB" required>
         <input type="date" id="dataRecebimento" placeholder="Data" required>
@@ -105,52 +105,6 @@
     </table>
 
     <script>
-        // Função para carregar a lista de documentos do localStorage
-        function carregarDocumentos() {
-            const documentos = JSON.parse(localStorage.getItem('documentos')) || [];
-            const documentList = document.getElementById("document-list");
-            documentList.innerHTML = ''; // Limpa a tabela
-
-            documentos.forEach(doc => {
-                const newRow = document.createElement("tr");
-
-                newRow.innerHTML = `
-                    <td>${doc.mawb}</td>
-                    <td>${doc.data}</td>
-                    <td>${doc.hora}</td>
-                    <td>${doc.peso} kg</td>
-                    <td>${doc.origem}</td>
-                    <td>${doc.destino}</td>
-                    <td>${doc.status}</td>
-                    <td><input type="checkbox" /></td>
-                    <td><button onclick="removerDocumento(this)">Remover</button></td>
-                `;
-
-                documentList.appendChild(newRow);
-            });
-        }
-
-        // Função para salvar a lista no localStorage
-        function salvarDocumentos() {
-            const documentos = [];
-            const rows = document.querySelectorAll("#document-list tr");
-
-            rows.forEach(row => {
-                const cells = row.cells;
-                documentos.push({
-                    mawb: cells[0].textContent,
-                    data: cells[1].textContent,
-                    hora: cells[2].textContent,
-                    peso: cells[3].textContent,
-                    origem: cells[4].textContent,
-                    destino: cells[5].textContent,
-                    status: cells[6].textContent,
-                });
-            });
-
-            localStorage.setItem('documentos', JSON.stringify(documentos));
-        }
-
         // Função para adicionar documentos na lista
         document.getElementById("document-form").addEventListener("submit", function(event) {
             event.preventDefault(); // Impede o envio do formulário
@@ -183,35 +137,34 @@
 
             // Limpa os campos após adicionar
             document.getElementById("document-form").reset();
-
-            // Salva a lista de documentos no localStorage
-            salvarDocumentos();
         });
 
-        // Função para remover um documento
+        // Função para remover um documento com verificação de senha
         function removerDocumento(button) {
-            const row = button.parentElement.parentElement;
-            row.remove();
-            salvarDocumentos(); // Atualiza a lista no localStorage após remoção
+            const senhaCorreta = "Soeuseiasenh@"; // Defina a senha necessária para remoção
+            const senha = prompt("Digite a senha para remover o documento:");
+
+            if (senha === senhaCorreta) {
+                const row = button.parentElement.parentElement;
+                row.remove();
+            } else {
+                alert("Senha incorreta. O documento não foi removido.");
+            }
         }
 
-        // Função de filtro para pesquisa por MAWB
+        // Função de filtro para MAWB
         function filtrarDocumento() {
-            const searchInput = document.getElementById("search").value.toLowerCase();
+            const searchTerm = document.getElementById("search").value.toLowerCase();
             const rows = document.querySelectorAll("#document-list tr");
-
+            
             rows.forEach(row => {
-                const mawbCell = row.cells[0].textContent.toLowerCase();
-                if (mawbCell.includes(searchInput)) {
-                    row.style.display = ""; // Exibe a linha
-                } else {
-                    row.style.display = "none"; // Oculta a linha
+                const mawbCell = row.querySelector("td");
+                if (mawbCell) {
+                    const mawbValue = mawbCell.textContent.toLowerCase();
+                    row.style.display = mawbValue.includes(searchTerm) ? "" : "none";
                 }
             });
         }
-
-        // Carrega os documentos ao iniciar a página
-        window.onload = carregarDocumentos;
     </script>
 
 </body>
